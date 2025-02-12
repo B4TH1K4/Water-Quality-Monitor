@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'screens/dashboard.dart';
+// import 'screens/dashboard.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'navigation_menu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const DashboardScreen(), // Home screen of your app
+      home: const NavigationMenu(), // Home screen of your app
     );
   }
 }

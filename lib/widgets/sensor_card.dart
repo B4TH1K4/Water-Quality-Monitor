@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:water_quality_monitor/screens/DetailsScreen.dart';
 
