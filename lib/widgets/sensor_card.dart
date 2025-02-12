@@ -25,57 +25,67 @@ class SensorCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => DetailsScreen(
-              title: title,
-            ),
+            builder: (context) => DetailsScreen(title: title),
           ),
         );
-      }, 
-    child:Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      color: const Color.fromARGB(255, 48, 67, 102), // Dark theme background
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text.rich(
+      },
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        color: const Color.fromARGB(255, 48, 67, 102), // Dark theme background
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text.rich(
                     TextSpan(
                       text: "$title: ",
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255),),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                       children: [
                         TextSpan(
                           text: value,
                           style: const TextStyle(
                             fontSize: 18,
-                            color: Color.fromARGB(255, 255, 255, 255),
+                            color: Colors.white,
                           ),
                         ),
                       ],
                     ),
                   ),
-                icon,
-              ],
-            ),
-            const SizedBox(height: 8),
-            const SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: progressValue.clamp(0.0, 1.0),
-              backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-              valueColor: AlwaysStoppedAnimation<Color>(progressColor),
-              minHeight: 10,
-              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-              color: const Color.fromARGB(255, 255, 255, 255),
-            ),
-          ],
+                  icon,
+                ],
+              ),
+              const SizedBox(height: 8),
+              TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 500), // Smooth animation
+                curve: Curves.easeInOut,
+                tween: Tween<double>(
+                  begin: 0.0, // Start from 0 (or previous value)
+                  end: progressValue.clamp(0.0, 1.0),
+                ),
+                builder: (context, animatedValue, child) {
+                  return LinearProgressIndicator(
+                    value: animatedValue,
+                    backgroundColor: Colors.white.withOpacity(0.3),
+                    valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+                    minHeight: 10,
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
-    )
     );
   }
 }

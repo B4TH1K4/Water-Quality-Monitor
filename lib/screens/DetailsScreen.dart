@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart' as gauges;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:water_quality_monitor/screens/EditSettings.dart';
-import 'package:syncfusion_flutter_charts/charts.dart' as charts;
+import 'package:water_quality_monitor/widgets/chart_container.dart';
 
-final DatabaseReference databaseRef = FirebaseDatabase.instance.ref("sensorData");
+final DatabaseReference databaseRef =
+    FirebaseDatabase.instance.ref("sensorData");
 
 class DetailsScreen extends StatefulWidget {
   final String title;
@@ -34,88 +35,99 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: const Color.fromRGBO(24, 29, 51, 1),
-      appBar: AppBar(title: Text(widget.title),foregroundColor: Colors.white,backgroundColor: const Color.fromRGBO(36, 42, 64,1),centerTitle: true,),
+      appBar: AppBar(
+        title: Text(widget.title),
+        foregroundColor: Colors.white,
+        backgroundColor: const Color.fromRGBO(36, 42, 64, 1),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children:[sensorData == null
-            ? const CircularProgressIndicator() // Show loading indicator while data is being fetched
-            : Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              sensorData == null
+                  ? const CircularProgressIndicator() // Show loading indicator while data is being fetched
+                  : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                      Expanded(
+                        Expanded(
                           child: buildGaugeView(widget.title),
-                      ),
+                        ),
                       ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
-                      padding: EdgeInsets.only(top: 20, right: 10, bottom: 20, left:10),
-                      
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(80, 114, 167, .3),
-                      borderRadius: BorderRadius.circular(15),
                     ),
-                    
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              Container(
+                margin:
+                    EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
+                padding:
+                    EdgeInsets.only(top: 20, right: 10, bottom: 20, left: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'TEMP Alarm',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Divider(
+                      color: Colors.white,
+                      height: 15,
+                      thickness: 0.5,
+                    ),
+                    Row(
                       children: <Widget>[
-                        Text('TEMP Alarm',style: TextStyle(color: Colors.white),),
-                        Divider(
-                          color: Colors.white,
-                          height: 15,
-                          thickness: 0.5,
+                        Icon(
+                          Icons.device_thermostat,
+                          color: Colors.deepOrange,
                         ),
-                        Row(
-                          children: <Widget>[
-                            Icon(Icons.device_thermostat,
-                            color: Colors.deepOrange,),
-                            Text('TEMP HIGH alarm value: ',style: TextStyle(color: Colors.white),),
-                            Text('  30°C',style: TextStyle(color: Colors.white))
-                          ],
+                        Text(
+                          'TEMP HIGH alarm value: ',
+                          style: TextStyle(color: Colors.white),
                         ),
-                        Row(
-                          children: <Widget>[
-                            Icon(Icons.device_thermostat,
-                            color: Colors.lightBlueAccent,),
-                            Text('TEMP LOW alarm value: ',style: TextStyle(color: Colors.white),),
-                            Text('  30°C',style: TextStyle(color: Colors.white)),
-                          ],
-                        ),
+                        Text('  30°C', style: TextStyle(color: Colors.white))
                       ],
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
-                      padding: EdgeInsets.only(top: 20, right: 10, bottom: 20, left:10),
-                      
-                    decoration: BoxDecoration(
-                      color: Color.fromRGBO(80, 114, 167, .3),
-                      borderRadius: BorderRadius.circular(15),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.device_thermostat,
+                          color: Colors.lightBlueAccent,
+                        ),
+                        Text(
+                          'TEMP LOW alarm value: ',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        Text('  30°C', style: TextStyle(color: Colors.white)),
+                      ],
                     ),
-                    child: charts.SfCartesianChart(
-                      
-                    ),
-                  ),
-                  ]
-      ),
+                  ],
+                ),
+              ),
+              Container(
+                child: ChartContainer(),
+              ),
+            ]),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 48, 67, 102),
-        onPressed:()=>{Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>const SettingsPage(),
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SettingsPage(),
+            ),
           ),
-        ),} ,
+        },
         tooltip: 'Home',
-        child: const Icon(Icons.edit, 
-                            size: 35.0, // Change size
-                            color: Color.fromARGB(255, 255, 255, 255), // Change color
-                            semanticLabel: 'Temperature Icon', // Accessibility label),
+        child: const Icon(
+          Icons.edit,
+          size: 35.0, // Change size
+          color: Color.fromARGB(255, 255, 255, 255), // Change color
+          semanticLabel: 'Temperature Icon', // Accessibility label),
         ),
       ),
     );
@@ -126,53 +138,65 @@ class _DetailsScreenState extends State<DetailsScreen> {
     double value = _extractNumericValue(requiredValue);
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),color: Color.fromRGBO(80, 114, 167, .3)),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.white.withOpacity(0.1),),
       width: 300,
       height: 250,
-      margin: EdgeInsets.only(top: 20, left:20, bottom:10, right:20),
+      margin: EdgeInsets.only(top: 20, left: 20, bottom: 10, right: 20),
       padding: EdgeInsets.all(10),
       child: gauges.SfRadialGauge(
         axes: <gauges.RadialAxis>[
           gauges.RadialAxis(
             showTicks: false,
             showLastLabel: true,
-            
             labelsPosition: gauges.ElementsPosition.outside,
-            
             minimum: getGaugeSettings(title)["minSpeed"],
             maximum: getGaugeSettings(title)["maxSpeed"],
             onLabelCreated: (gauges.AxisLabelCreatedArgs args) {
-                // Show only minimum and maximum labels
-                if (args.text != getGaugeSettings(title)["minSpeed"].toStringAsFixed(0) &&
-                    args.text != getGaugeSettings(title)["maxSpeed"].toStringAsFixed(0)) {
-                  args.text = ''; // Hide other labels
-                }
-              },
-              axisLabelStyle: const gauges.GaugeTextStyle(color: Color.fromARGB(255, 255, 255, 255), // Set the label color to red
-                fontSize: 18,),
+              // Show only minimum and maximum labels
+              if (args.text !=
+                      getGaugeSettings(title)["minSpeed"].toStringAsFixed(0) &&
+                  args.text !=
+                      getGaugeSettings(title)["maxSpeed"].toStringAsFixed(0)) {
+                args.text = ''; // Hide other labels
+              }
+            },
+            axisLabelStyle: const gauges.GaugeTextStyle(
+              color: Color.fromARGB(
+                  255, 255, 255, 255), // Set the label color to red
+              fontSize: 18,
+            ),
             axisLineStyle: const gauges.AxisLineStyle(
-                thickness: 0.13, // Decrease the thickness of the axis
-                thicknessUnit: gauges.GaugeSizeUnit.factor,
-                cornerStyle: gauges.CornerStyle.bothCurve, // Use factor for relative thickness
-              ),
+              thickness: 0.13, // Decrease the thickness of the axis
+              thicknessUnit: gauges.GaugeSizeUnit.factor,
+              cornerStyle: gauges
+                  .CornerStyle.bothCurve, // Use factor for relative thickness
+            ),
             pointers: <gauges.GaugePointer>[
-                gauges.RangePointer(
-                  enableAnimation: true,
-                  value: value,
-                  width: 0.13,
-                  sizeUnit: gauges.GaugeSizeUnit.factor,
-                  gradient: const SweepGradient(
-                    colors: <Color>[Color.fromARGB(255, 168, 207, 39), Color.fromARGB(255, 218, 29, 29)],
-                    stops: <double>[0.25, 0.75],
-                  ),
-                  cornerStyle: gauges.CornerStyle.bothCurve,
-                )
-              ],
+              gauges.RangePointer(
+                enableAnimation: true,
+                value: value,
+                width: 0.13,
+                sizeUnit: gauges.GaugeSizeUnit.factor,
+                gradient: const SweepGradient(
+                  colors: <Color>[
+                    Color.fromARGB(255, 168, 207, 39),
+                    Color.fromARGB(255, 218, 29, 29)
+                  ],
+                  stops: <double>[0.25, 0.75],
+                ),
+                cornerStyle: gauges.CornerStyle.bothCurve,
+              )
+            ],
             annotations: <gauges.GaugeAnnotation>[
               gauges.GaugeAnnotation(
                 widget: Text(
                   '${value.toStringAsFixed(1)} ${getGaugeSettings(title)["unitOfMeasurement"]}',
-                  style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 255, 255, 255)),
+                  style: const TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 255, 255)),
                 ),
                 angle: 90,
                 positionFactor: 0,
@@ -210,38 +234,37 @@ class _DetailsScreenState extends State<DetailsScreen> {
   }
 
   Map<String, dynamic> getGaugeSettings(String title) {
-  switch (title) {
-    case "Temperature":
-      return {
-        "minSpeed": -10.0, // Ensure these are double values
-        "maxSpeed": 50.0, // Ensure these are double values
-        "unitOfMeasurement": "°C",
-      };
-    case "Turbidity":
-      return {
-        "minSpeed": 0.0, // Ensure these are double values
-        "maxSpeed": 100.0, // Ensure these are double values
-        "unitOfMeasurement": "%",
-      };
-    case "TDS":
-      return {
-        "minSpeed": 0.0, // Ensure these are double values
-        "maxSpeed": 2000.0, // Ensure these are double values
-        "unitOfMeasurement": "ppm",
-      };
-    case "pH Level":
-      return {
-        "minSpeed": 0.0, // Ensure these are double values
-        "maxSpeed": 14.0, // Ensure these are double values
-        "unitOfMeasurement": "pH"
-      };
-    default:
-      return {
-        "minSpeed": 0.0, // Ensure these are double values
-        "maxSpeed": 100.0, // Ensure these are double values
-        "unitOfMeasurement": "",
-      };
+    switch (title) {
+      case "Temperature":
+        return {
+          "minSpeed": -10.0, // Ensure these are double values
+          "maxSpeed": 50.0, // Ensure these are double values
+          "unitOfMeasurement": "°C",
+        };
+      case "Turbidity":
+        return {
+          "minSpeed": 0.0, // Ensure these are double values
+          "maxSpeed": 100.0, // Ensure these are double values
+          "unitOfMeasurement": "%",
+        };
+      case "TDS":
+        return {
+          "minSpeed": 0.0, // Ensure these are double values
+          "maxSpeed": 2000.0, // Ensure these are double values
+          "unitOfMeasurement": "ppm",
+        };
+      case "pH Level":
+        return {
+          "minSpeed": 0.0, // Ensure these are double values
+          "maxSpeed": 14.0, // Ensure these are double values
+          "unitOfMeasurement": "pH"
+        };
+      default:
+        return {
+          "minSpeed": 0.0, // Ensure these are double values
+          "maxSpeed": 100.0, // Ensure these are double values
+          "unitOfMeasurement": "",
+        };
+    }
   }
-}
-
 }
