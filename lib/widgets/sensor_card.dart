@@ -66,7 +66,7 @@ class SensorCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               TweenAnimationBuilder<double>(
-                duration: const Duration(milliseconds: 500), // Smooth animation
+                duration: const Duration(milliseconds: 1000), // Smooth animation
                 curve: Curves.easeInOut,
                 tween: Tween<double>(
                   begin: 0.0, // Start from 0 (or previous value)
