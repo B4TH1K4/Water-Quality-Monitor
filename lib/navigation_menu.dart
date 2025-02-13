@@ -15,7 +15,7 @@ class NavigationMenu extends StatelessWidget {
         () => NavigationBarTheme(
           data: NavigationBarThemeData(
             indicatorColor: Colors.grey, // Selected item background color
-            labelTextStyle: MaterialStateProperty.all(
+            labelTextStyle: WidgetStateProperty.all(
               const TextStyle(color: Colors.white), // Text color
             ),
           ),

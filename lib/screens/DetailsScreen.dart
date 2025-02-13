@@ -59,9 +59,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     ),
               Container(
                 margin:
-                    EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
+                    const EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
                 padding:
-                    EdgeInsets.only(top: 20, right: 10, bottom: 20, left: 10),
+                    const EdgeInsets.only(top: 20, right: 10, bottom: 20, left: 10),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(15),
@@ -118,7 +118,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const SettingsPage(),
+              builder: (context) => SettingsPage(title: widget.title), 
             ),
           ),
         },
@@ -143,8 +143,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
           color: Colors.white.withOpacity(0.1),),
       width: 300,
       height: 250,
-      margin: EdgeInsets.only(top: 20, left: 20, bottom: 10, right: 20),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.only(top: 20, left: 20, bottom: 10, right: 20),
+      padding: const EdgeInsets.all(10),
       child: gauges.SfRadialGauge(
         axes: <gauges.RadialAxis>[
           gauges.RadialAxis(

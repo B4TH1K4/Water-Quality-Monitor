@@ -3,6 +3,8 @@ import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:firebase_database/firebase_database.dart';
 
 class ChartContainer extends StatefulWidget {
+  const ChartContainer({super.key});
+
   @override
   _ChartContainerState createState() => _ChartContainerState();
 }
@@ -58,8 +60,8 @@ class _ChartContainerState extends State<ChartContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(20),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(15),
@@ -68,7 +70,7 @@ class _ChartContainerState extends State<ChartContainer> {
         length: 4,
         child: Column(
           children: [
-            TabBar(
+            const TabBar(
               labelColor: Colors.white,
               unselectedLabelColor: Colors.grey,
               indicatorColor: Colors.blue,
@@ -79,9 +81,9 @@ class _ChartContainerState extends State<ChartContainer> {
                 Tab(text: "Monthly"),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Ensure charts don't overflow
-            Container(
+            SizedBox(
               height: 300, // Fix the height to avoid infinite constraints
               child: TabBarView(
                 children: [
@@ -100,11 +102,11 @@ class _ChartContainerState extends State<ChartContainer> {
 
   Widget buildChart(List<ChartData> data, String title) {
     return data.isEmpty
-        ? Center(child: Text("No Data", style: TextStyle(color: Colors.white)))
+        ? const Center(child: Text("No Data", style: TextStyle(color: Colors.white)))
         : charts.SfCartesianChart(
-            title: charts.ChartTitle(text: title, textStyle: TextStyle(color: Colors.white)),
-            primaryXAxis: charts.DateTimeAxis(),
-            primaryYAxis: charts.NumericAxis(),
+            title: charts.ChartTitle(text: title, textStyle: const TextStyle(color: Colors.white)),
+            primaryXAxis: const charts.DateTimeAxis(),
+            primaryYAxis: const charts.NumericAxis(),
             series: <charts.LineSeries<ChartData, DateTime>>[
               charts.LineSeries<ChartData, DateTime>(
                 dataSource: data,
