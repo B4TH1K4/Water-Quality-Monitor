@@ -4,7 +4,6 @@ import 'package:syncfusion_flutter_gauges/gauges.dart' as gauges;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:water_quality_monitor/screens/EditSettings.dart';
 import 'package:water_quality_monitor/widgets/chart_container.dart';
-import 'package:water_quality_monitor/screens/EditSettings.dart';
 
 final DatabaseReference databaseRef =
     FirebaseDatabase.instance.ref("sensorData");
