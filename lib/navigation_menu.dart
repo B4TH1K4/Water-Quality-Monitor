@@ -64,7 +64,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     const DetailsScreen(title: "Temperature"),
-    const DetailsScreen(title: "pH"),
+    const DetailsScreen(title: "pH Level"),
     const DashboardScreen(),
     const DetailsScreen(title: "TDS"),
     const DetailsScreen(title: "Turbidity"),
